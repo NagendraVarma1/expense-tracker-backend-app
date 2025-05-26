@@ -1,4 +1,4 @@
-const Login = require("../Models/login");
+const Signup = require("../Models/signup");
 
 exports.addNewUser = async (req, res, next) => {
   try {
@@ -6,17 +6,16 @@ exports.addNewUser = async (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    const existingUser = await Login.findOne({
+    const existingUser = await Signup.findOne({
       where: {
         email: email,
       },
     });
 
     if (existingUser) {
-      console.log("User already Exist");
-      res.sendStatus(200)
+      res.json({ userData: "User already Exist" });
     } else {
-      const data = await Login.create({
+      const data = await Signup.create({
         username: username,
         email: email,
         password: password,

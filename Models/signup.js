@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../Util/database");
 
-const Login = sequelize.define('login-table', {
+const Signup = sequelize.define('signup-table', {
     id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -21,4 +21,4 @@ const Login = sequelize.define('login-table', {
     }
 })
 
-module.exports = Login
+module.exports = Signup
