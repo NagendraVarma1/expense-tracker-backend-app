@@ -1,19 +1,10 @@
 const express = require('express');
 
+const userLogin = require('../Controllers/Login')
+
 const router = express.Router();
 
-router.post('/', (req, res, next) => {
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-
-    let loginDetails = {
-        username,
-        email,
-        password
-    }
-    console.log(loginDetails)
-})
+router.post('/', userLogin.addNewUser)
 
 
 module.exports = router
