@@ -1,4 +1,5 @@
 const Signup = require("../Models/signup");
+const bcrypt = require("bcrypt");
 
 exports.userLogin = async (req, res, next) => {
   try {
@@ -11,13 +12,18 @@ exports.userLogin = async (req, res, next) => {
       },
     });
     if (loginUserDetails) {
-      if (password === loginUserDetails.password) {
-        res.status(200).json({ loginStatus: "User Logged In Successfully" });
-      } else {
-        res.sendStatus(401);
-      }
+      bcrypt.compare(password, loginUserDetails.password, (err, result) => {
+        if(err){
+          res.status(500).json({success: false, message: 'Something Went Wrong'})
+        }
+        if (result === true) {
+          res.status(200).json({success: true, loginStatus: "User Logged In Successfully" });
+        } else {
+          res.status(401).json({success: false, message: "Password Doesnt match" });
+        }
+      });
     } else {
-      res.sendStatus(404);
+      res.status(404).json({success: false, message: "User Doesnt Exit! Please Signup" });
     }
   } catch (err) {
     console.log(err);
