@@ -10,6 +10,7 @@ exports.addNewExpense = async (req, res, next) => {
       amount,
       description,
       category,
+      signupTableId : req.user.id
     });
     res.status(200).json({ expenseData: data });
   } catch (err) {
@@ -18,9 +19,27 @@ exports.addNewExpense = async (req, res, next) => {
 };
 
 exports.getAllExpenses = (req, res, next) => {
-    Expenses.findAll()
+    Expenses.findAll({where : {signupTableId: req.user.id}})
     .then((data) => {
        res.status(200).json({allExpenses: data})
     })
+    .catch((err) => {
+      console.log(err)
+    })
     
+}
+
+exports.deleteExpense = (req, res, next) => {
+    const id = req.params.id;
+    Expenses.destroy({
+        where: {
+            id: id
+        }
+    })
+    .then((data) => {
+        res.sendStatus(200)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
 }
